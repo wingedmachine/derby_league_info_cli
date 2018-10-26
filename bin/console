@@ -10,5 +10,9 @@ require "derby_league_info_cli"
 # require "pry"
 # Pry.start
 
+def reload!
+  load "./lib/derby_league_info_cli.rb"
+end
+
 require "irb"
 IRB.start(__FILE__)

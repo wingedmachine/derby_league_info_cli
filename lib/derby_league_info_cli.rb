@@ -1,5 +1,5 @@
-require "derby_league_info_cli/version"
+require_relative "derby_league_info_cli/version"
 
 module DerbyLeagueInfoCli
-  # Your code goes here...
+  puts "test"
 end
