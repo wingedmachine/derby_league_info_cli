@@ -1,71 +1,74 @@
 require "spec_helper"
 
 RSpec.describe "Scraper" do
-  context "#scrape_league_list" do
-    league_list = DerbyLeagueInfoCli::Scraper.scrape_league_list( \
-      "https://wftda.com/wftda-leagues/")
-    league_list.freeze
-
-    it "returns an array of hashes with keys for name, city, country, " \
-      "membership, and profile_url" do
-
-      expect(league_list).to be_an_instance_of(Array).and \
-        all( be_an_instance_of(Hash) ).and \
-        all ( have_key(:name).and \
-              have_key(:city).and \
-              have_key(:country).and \
-              have_key(:membership).and \
-              have_key(:profile_url) )
-    end
-
-    it "Game recaps should be nil or an array of hashes with keys for " \
-      "headline, url, author, and date" do
-
-      game_recaps = league_list[:game_recaps].select { |x| !x.nil? }
-      expect(game_recaps).to all( be_an_instance_of(Hash) ).and \
-        all ( have_key(:headline).and \
-              have_key(:url).and \
-              have_key(:author).and \
-              have_key(:date) )
-    end
-  end
+  # context "#scrape_league_list" do
+  #   league_list = DerbyLeagueInfoCli::Scraper.scrape_league_list( \
+  #     "https://wftda.com/wftda-leagues/")
+  #   league_list.freeze
+  #
+  #   it "returns an array of hashes with keys for name, city, country, " \
+  #     "membership, and profile_url" do
+  #
+  #     expect(league_list).to be_an_instance_of(Array).and \
+  #       all( be_an_instance_of(Hash) ).and \
+  #       all ( have_key(:name).and \
+  #             have_key(:city).and \
+  #             have_key(:country).and \
+  #             have_key(:membership).and \
+  #             have_key(:profile_url) )
+  #   end
+  #
+  #   it "Game recaps should be nil or an array of hashes with keys for " \
+  #     "headline, url, author, and date" do
+  #
+  #     game_recaps = league_list[:game_recaps].select { |x| !x.nil? }
+  #     expect(game_recaps).to all( be_an_instance_of(Hash) ).and \
+  #       all ( have_key(:headline).and \
+  #             have_key(:url).and \
+  #             have_key(:author).and \
+  #             have_key(:date) )
+  #   end
+  # end
 
   context "#scrape_profile" do
     recaps_profile = DerbyLeagueInfoCli::Scraper.scrape_profile( \
       "https://wftda.com/wftda-leagues/rose-city-rollers/")
     no_recaps_profile = DerbyLeagueInfoCli::Scraper.scrape_profile( \
-      "https://wftda.com/wftda-leagues/rose-city-rollers/")
+      "https://wftda.com/wftda-leagues/northern-arizona-roller-derby/")
 
     it "returns a hash with keys for website and game recaps" do
-      expect(recaps_profile).to be_an_instance_of(Hash).and \
-        have_key(:website).and have_key(:game_recaps)
-      expect(no_recaps_profile).to be_an_instance_of(Hash).and \
-        have_key(:website).and \
-        have_key(:game_recaps)
+      expect(recaps_profile).to be_an_instance_of(Hash)
+      expect(recaps_profile).to have_key(:website)
+      expect(recaps_profile).to have_key(:game_recaps)
+      expect(no_recaps_profile).to be_an_instance_of(Hash)
+      expect(no_recaps_profile).to have_key(:website)
+      expect(no_recaps_profile).to have_key(:game_recaps)
     end
 
     it "has nil for game_recaps if the profile has none" do
       expect(no_recaps_profile[:game_recaps]).to be_nil
     end
 
-    it "has a hash for game_recaps if the profile has them, with keys for " \
+    it "has an array of hashes for game_recaps if the profile has them, with keys for " \
       "headline, url, author, and date" do
 
-      expect(recaps_profile[:game_recaps]).to be_an_instance_of(Hash).and \
-        have_key(:headline).and \
-        have_key(:url).and \
-        have_key(:author).and \
-        have_key(:date)
+      expect(recaps_profile[:game_recaps]).to be_an_instance_of(Array)
+      expect(recaps_profile[:game_recaps]).to all( have_key(:author).and \
+                                                   have_key(:datetime).and \
+                                                   have_key(:headline).and \
+                                                   have_key(:url) )
     end
 
     it "has hashes for game recap headlines with keys for event, game " \
       "number, and other team" do
 
-      expect(recaps_profile[:game_recaps][:headlines]).to \
-        be_an_instance_of(Hash).and \
-        all ( have_key(:event).and \
-              have_key(:game_number).and \
-              have_key(:other_team) )
+      expect(recaps_profile[:game_recaps][:headlines]).to be_an_instance_of(Hash).and \
+      expect(recaps_profile[:game_recaps][:headlines]).to all (
+        have_key(:year).and \
+        have_key(:event).and \
+        have_key(:location).and \
+        have_key(:game_number).and \
+        have_key(:teams) )
     end
   end
 end

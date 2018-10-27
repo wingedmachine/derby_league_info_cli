@@ -1,5 +1,6 @@
 require "bundler/setup"
 require "derby_league_info_cli"
+require "scraper"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

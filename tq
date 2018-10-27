@@ -1,0 +1,49 @@
+=> [1;34m#(Element:0x21de640 {[0m
+  name = [31m[1;31m"[0m[31mul[1;31m"[0m[31m[0m,
+  attributes = [
+    [1;34m#(Attr:0x21de5c8 {[0m name = [31m[1;31m"[0m[31mclass[1;31m"[0m[31m[0m, value = [31m[1;31m"[0m[31mleague-event-list[1;31m"[0m[31m[0m })],
+  children = [
+    [1;34m#(Text [0m[31m[1;31m"[0m[31m[1;35m\n[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\n[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;31m"[0m[31m[0m),
+    [1;34m#(Element:0x21de0b4 {[0m
+      name = [31m[1;31m"[0m[31mli[1;31m"[0m[31m[0m,
+      children = [
+        [1;34m#(Text [0m[31m[1;31m"[0m[31m[1;35m\n[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;31m"[0m[31m[0m),
+        [1;34m#(Element:0x21e1df4 {[0m
+          name = [31m[1;31m"[0m[31mdiv[1;31m"[0m[31m[0m,
+          attributes = [
+            [1;34m#(Attr:0x21e1d90 {[0m name = [31m[1;31m"[0m[31mclass[1;31m"[0m[31m[0m, value = [31m[1;31m"[0m[31mleague-event-meta[1;31m"[0m[31m[0m })],
+          children = [
+            [1;34m#(Text [0m[31m[1;31m"[0m[31m[1;35m\n[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;31m"[0m[31m[0m),
+            [1;34m#(Element:0x21e18a4 {[0m
+              name = [31m[1;31m"[0m[31mtime[1;31m"[0m[31m[0m,
+              attributes = [
+                [1;34m#(Attr:0x21e1840 {[0m name = [31m[1;31m"[0m[31mclass[1;31m"[0m[31m[0m, value = [31m[1;31m"[0m[31mupdated[1;31m"[0m[31m[0m }),
+                [1;34m#(Attr:0x21e182c {[0m
+                  name = [31m[1;31m"[0m[31mdatetime[1;31m"[0m[31m[0m,
+                  value = [31m[1;31m"[0m[31m2017-11-05T23:20:44+00:00[1;31m"[0m[31m[0m
+                  })],
+              children = [ [1;34m#(Text [0m[31m[1;31m"[0m[31mNovember 5, 2017[1;31m"[0m[31m[0m)]
+              }),
+            [1;34m#(Text [0m[31m[1;31m"[0m[31m  |  Culta Skaro[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;31m"[0m[31m[0m)]
+          }),
+        [1;34m#(Text [0m[31m[1;31m"[0m[31m[1;35m\n[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;31m"[0m[31m[0m),
+        [1;34m#(Element:0x21e0df0 {[0m
+          name = [31m[1;31m"[0m[31mdiv[1;31m"[0m[31m[0m,
+          attributes = [
+            [1;34m#(Attr:0x21e0d8c {[0m name = [31m[1;31m"[0m[31mclass[1;31m"[0m[31m[0m, value = [31m[1;31m"[0m[31mevent-title[1;31m"[0m[31m[0m })],
+          children = [
+            [1;34m#(Element:0x21e0954 {[0m
+              name = [31m[1;31m"[0m[31ma[1;31m"[0m[31m[0m,
+              attributes = [
+                [1;34m#(Attr:0x21e08f0 {[0m
+                  name = [31m[1;31m"[0m[31mhref[1;31m"[0m[31m[0m,
+                  value = [31m[1;31m"[0m[31m/2017-international-wftda-championships-philadelphia-game-16-victoria-vs-rose-city/[1;31m"[0m[31m[0m
+                  })],
+              children = [
+                [1;34m#(Text [0m[31m[1;31m"[0m[31m2017 International WFTDA Championships Philadelphia Game 16: Victoria vs Rose City[1;31m"[0m[31m[0m)]
+              })]
+          }),
+        [1;34m#(Text [0m[31m[1;31m"[0m[31m[1;35m\n[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;31m"[0m[31m[0m)]
+      }),
+    [1;34m#(Text [0m[31m[1;31m"[0m[31m[1;35m\n[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\n[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;35m\t[0m[31m[1;31m"[0m[31m[0m)]
+  })
