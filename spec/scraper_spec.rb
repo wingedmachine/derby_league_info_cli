@@ -1,10 +1,9 @@
 require "spec_helper"
 
-RSpec.describe Scraper do
+RSpec.describe "Scraper" do
   context "#scrape_league_list" do
-    league_list = Scraper.scrape_league_list( \
-      test: "./test_fixtures/small-subset.html"  # comment this line out for online tests
-      )
+    league_list = DerbyLeagueInfoCli::Scraper.scrape_league_list( \
+      "https://wftda.com/wftda-leagues/")
     league_list.freeze
 
     it "returns an array of hashes with keys for name, city, country, " \
@@ -32,10 +31,10 @@ RSpec.describe Scraper do
   end
 
   context "#scrape_profile" do
-    recaps_profile = Scraper.scrape_profile("./test_fixtures/" \
-      "wftda-leagues/rose-city-rollers")
-    no_recaps_profile = Scraper.scrape_profile("./test_fixtures/" \
-      "wftda-leagues/northern-arizona-roller-derby")
+    recaps_profile = DerbyLeagueInfoCli::Scraper.scrape_profile( \
+      "https://wftda.com/wftda-leagues/rose-city-rollers/")
+    no_recaps_profile = DerbyLeagueInfoCli::Scraper.scrape_profile( \
+      "https://wftda.com/wftda-leagues/rose-city-rollers/")
 
     it "returns a hash with keys for website and game recaps" do
       expect(recaps_profile).to be_an_instance_of(Hash).and \
