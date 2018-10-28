@@ -1,7 +1,7 @@
 require 'nokogiri'
 require 'open-uri'
 
-module DerbyLeagueInfoCli::Scraper
+module Scraper
   class LeagueProfile
       def self.scrape(url)
         doc = Nokogiri::HTML(open(url))

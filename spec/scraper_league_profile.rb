@@ -1,9 +1,9 @@
 require "spec_helper"
 
 RSpec.describe "Scraper::LeagueProfile" do
-  recaps_profile = DerbyLeagueInfoCli::Scraper::LeagueProfile.scrape( \
+  recaps_profile = Scraper::LeagueProfile.scrape( \
     "https://wftda.com/wftda-leagues/rose-city-rollers/")
-  no_recaps_profile = DerbyLeagueInfoCli::Scraper::LeagueProfile.scrape( \
+  no_recaps_profile = Scraper::LeagueProfile.scrape( \
     "https://wftda.com/wftda-leagues/northern-arizona-roller-derby/")
 
   it "returns a hash with keys for website and game recaps" do

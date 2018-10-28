@@ -1,7 +1,7 @@
 require 'nokogiri'
 require 'open-uri'
 
-module DerbyLeagueInfoCli::Scraper
+module Scraper
   class LeagueList
       def self.scrape(url = "https://wftda.com/wftda-leagues/")
         doc = Nokogiri::HTML(open(url))

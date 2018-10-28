@@ -1,8 +1,7 @@
 require 'nokogiri'
 require 'open-uri'
-require 'pry'
 
-module DerbyLeagueInfoCli::Scraper
+module Scraper
   class CountryCodes
     def self.scrape(url = "https://www.nationsonline.org/oneworld/country" \
         "_code_list.htm")
