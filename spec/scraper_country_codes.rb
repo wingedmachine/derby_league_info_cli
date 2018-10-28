@@ -11,7 +11,7 @@ RSpec.describe "Scraper::CountryCodes" do
                                       TR: "Turkey",
                                       ZW: "Zimbabwe"
                                     )
-    expect(country_codes.keys).to all( have(2).characters )
+    expect(country_codes.keys).to all( match(/\A[A-Z]{2}\z/) )
     expect(country_codes.values).to all (be_an_instance_of(String))
   end
 end
