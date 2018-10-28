@@ -6,30 +6,30 @@ RSpec.describe "Scraper::LeagueList" do
     { name: "Bradentucky Bombers Roller Derby League",
       city: "Bradenton, FL",
       country: "US",
-      member?: false,
+      is_full_member: false,
       profile_url: "https://wftda.com/wftda-leagues/bradentucky-" \
         "bombers-roller-derby-league/" },
     { name: "Beet City Bombers",
       city: "Boise, ID",
       country: "US",
-      member?: false,
+      is_full_member: false,
       profile_url: "https://wftda.com/wftda-leagues/beet-city-bombers/" },
     { name: "Lincolnshire Bombers Roller Derby",
       city: "Lincolnshire, England",
       country: "GB",
-      member?: true,
+      is_full_member: true,
       profile_url: "https://wftda.com/wftda-leagues/lincolnshire-" \
         "bombers-roller-derby/" },
     { name: "Boulder County Bombers",
       city: "Longmont, CO",
       country: "US",
-      member?: true,
+      is_full_member: true,
       profile_url: "https://wftda.com/wftda-leagues/boulder-county-" \
         "bombers/" },
     { name: "Charm City Roller Girls",
       city: "Baltimore, MD",
       country: "US",
-      member?: true,
+      is_full_member: true,
       profile_url: "https://wftda.com/wftda-leagues/charm-city-roller-" \
         "girls/" }
   ]
@@ -43,7 +43,7 @@ RSpec.describe "Scraper::LeagueList" do
       all ( have_key(:name) \
             .and have_key(:city) \
             .and have_key(:country) \
-            .and have_key(:member?) \
+            .and have_key(:is_full_member) \
             .and have_key(:profile_url) )
   end
 

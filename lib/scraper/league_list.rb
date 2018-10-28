@@ -11,7 +11,7 @@ module Scraper
           { name: get_league_name(league),
             city: location[0],
             country: location[1],
-            member?: get_membership(league),
+            is_full_member: get_membership(league),
             profile_url: get_profile_url(league)
           }
         end

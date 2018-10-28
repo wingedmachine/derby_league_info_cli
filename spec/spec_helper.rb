@@ -1,4 +1,5 @@
 require "bundler/setup"
+require "derby_league"
 require "derby_league_info_cli"
 require "scraper/country_codes"
 require "scraper/league_list"
