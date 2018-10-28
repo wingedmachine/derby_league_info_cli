@@ -1,5 +1,3 @@
-require 'pry'
-
 class DerbyLeague
   attr_reader :name, :country, :city, :is_full_member, :profile_url, :website, \
     :game_recaps
