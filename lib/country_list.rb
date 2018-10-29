@@ -12,11 +12,11 @@ class CountryList
   end
 
   def find_by_code(code)
-    countries[code.to_sym]
+    country_codes[code.to_sym]
   end
 
   def search_by_name(input)
-    CountryList.new(countries.select { |key, value| value.upcase.include? \
+    CountryList.new(country_codes.select { |key, value| value.upcase.include? \
       (input.upcase) })
   end
 end
