@@ -19,24 +19,33 @@ RSpec.describe "Scraper::LeagueProfile" do
     expect(no_recaps_profile[:game_recaps]).to be_nil
   end
 
-  it "has an array of hashes for game_recaps if the profile has them, " \
-    "with keys for headline, url, author, and date" do
+  it "has an array of hashes for game_recaps if the profile has them, with " \
+    "keys for year, location, event, game-number, teams, url, author, and " \
+    "date" do
 
     expect(recaps_profile[:game_recaps]).to be_an_instance_of(Array)
     expect(recaps_profile[:game_recaps]).to all( have_key(:author) \
                                                  .and have_key(:datetime) \
-                                                 .and have_key(:headline) \
+                                                 .and have_key(:year) \
+                                                 .and have_key(:event) \
+                                                 .and have_key(:location) \
+                                                 .and have_key(:game_number) \
+                                                 .and have_key(:teams) \
                                                  .and have_key(:url) )
   end
 
-  it "has hashes for game recap headlines with keys for year, event, " \
-    "game number, and teams. Teams is an array of two strings." do
-
+  it "Teams is an array of two strings" do
     expect(recaps_profile[:game_recaps].all? do |recap|
-      recap[:headline].is_a?(Hash) \
-        && recap[:headline].keys & [:year, :event, :game_number, :teams] \
-        && recap[:headline][:teams].size == 2 \
-        && recap[:headline][:teams].none?(&:nil?)
+      recap[:teams].is_a?(Array) \
+        && recap[:teams].size == 2 \
+        && recap[:teams].none?(&:nil?) \
+        && recap[:teams].all? { |team| team.is_a?(String) }
+    end ).to be true
+  end
+
+  it "Datetime is a Time" do
+    expect(recaps_profile[:game_recaps].all? do |recap|
+      recap[:datetime].is_a?(Time)
     end ).to be true
   end
 end

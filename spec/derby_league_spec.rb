@@ -19,7 +19,6 @@ RSpec.describe "DerbyLeague" do
 
   it "should load website and game_recaps in from the profile_url" do
     expect(league.website).to eq("http://www.atlantarollergirls.com/")
-    expect(league.game_recaps).to be_an_instance_of(Array)
-    expect(atlanta[:game_recaps]).to all( be_an_instance_of(GameRecap) )
+    expect(league.game_recaps).to all( be_an_instance_of(GameRecap) )
   end
 end

@@ -11,9 +11,8 @@ class DerbyLeague
 
     profile = Scraper::LeagueProfile.scrape(profile_url)
     @website = profile[:website]
-    @game_recaps = profile[:game_recaps]
-    # @game_recaps = profile[:game_recaps].map do |recap|
-    #   GameRecap.new(recap)
-    # end
+    @game_recaps = profile[:game_recaps].map do |recap|
+      GameRecap.new(recap)
+    end
   end
 end

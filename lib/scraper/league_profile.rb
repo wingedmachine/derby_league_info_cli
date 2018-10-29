@@ -24,13 +24,34 @@ module Scraper
       def self.parse_recaps(raw_recaps)
         return nil unless recaps_available?(raw_recaps)
 
-        wert = raw_recaps.map do |recap|
+        raw_recaps.map do |recap|
+          headline = parse_headline(recap)
           { author: parse_author(recap),
             datetime: parse_datetime(recap),
-            headline: parse_headline(recap),
+            year: headline[:year],
+            event: headline[:event],
+            location: headline[:location],
+            game_number: headline[:game_number],
+            teams: headline[:teams],
             url: parse_url(recap)
           }
         end
+      end
+
+      private_class_method
+      def self.parse_headline(recap)
+        raw_headline = recap.search("div.event-title > a").text
+        headline_data = raw_headline.split(/( Game |: | vs\.? )/)
+        headline_data = headline_data.values_at(* headline_data.each_index \
+          .select(&:even?) )
+        year = headline_data[0].split(" ").first
+        location = headline_data[0].split(/(Championships |Playoffs )/).last
+        { year: year,
+          event: headline_data[0].sub(year, "").sub(location, "").strip,
+          location: location,
+          game_number: headline_data[1].to_i,
+          teams: [headline_data[2], headline_data[3]]
+        }
       end
 
       private_class_method
@@ -48,23 +69,8 @@ module Scraper
 
       private_class_method
       def self.parse_datetime(recap)
-        recap.search("div.league-event-meta > time").attribute("datetime").value
-      end
-
-      private_class_method
-      def self.parse_headline(recap)
-        raw_headline = recap.search("div.event-title > a").text
-        headline_data = raw_headline.split(/( Game |: | vs\.? )/)
-        headline_data = headline_data.values_at(* headline_data.each_index \
-          .select(&:even?) )
-        year = headline_data[0].split(" ").first
-        location = headline_data[0].split(/(Championships |Playoffs )/).last
-        { year: year,
-          event: headline_data[0].sub(year, "").sub(location, "").strip,
-          location: location,
-          game_number: headline_data[1].to_i,
-          teams: [headline_data[2], headline_data[3]]
-        }
+        Time.new(recap.search("div.league-event-meta > time").attribute( \
+          "datetime").value)
       end
 
       private_class_method
