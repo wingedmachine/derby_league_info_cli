@@ -1,6 +1,3 @@
-require 'nokogiri'
-require 'open-uri'
-
 module Scraper
   class LeagueProfile
       def self.scrape(url)

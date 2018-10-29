@@ -1,5 +1,3 @@
-require 'comparable/comparable'
-
 class GameRecap
   include Comparable::InstanceMethods
 

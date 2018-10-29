@@ -1,6 +1,3 @@
-require 'nokogiri'
-require 'open-uri'
-
 module Scraper
   class CountryCodes
     def self.scrape(url = "https://www.nationsonline.org/oneworld/country" \

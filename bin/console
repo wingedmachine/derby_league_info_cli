@@ -11,8 +11,9 @@ require "derby_league_info_cli"
 # Pry.start
 
 def reload!
-  load "./lib/derby_league_info_cli.rb"
+  load "./lib/cli.rb"
 end
 
 require "irb"
 IRB.start
+reload!

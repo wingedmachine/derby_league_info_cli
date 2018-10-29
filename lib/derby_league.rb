@@ -1,5 +1,3 @@
-require 'comparable/comparable'
-
 class DerbyLeague
   include Comparable::InstanceMethods
 

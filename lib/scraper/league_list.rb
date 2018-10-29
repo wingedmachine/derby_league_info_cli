@@ -1,6 +1,3 @@
-require 'nokogiri'
-require 'open-uri'
-
 module Scraper
   class LeagueList
       def self.scrape(url = "https://wftda.com/wftda-leagues/")

@@ -1,7 +1,3 @@
-require 'comparable/comparable'
-require 'pageable/pageable'
-require 'pry'
-
 class LeagueList
   extend Pageable::ClassMethods
   include Comparable::InstanceMethods

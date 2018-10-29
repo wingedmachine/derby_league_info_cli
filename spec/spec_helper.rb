@@ -1,13 +1,5 @@
 require "bundler/setup"
-require "cli"
-require "country_list"
-require "derby_league"
-require "game_recap"
-require "league_list"
-require "pageable/pageable"
-require "scraper/country_codes"
-require "scraper/league_list"
-require "scraper/league_profile"
+require "derby_league_info_cli"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
