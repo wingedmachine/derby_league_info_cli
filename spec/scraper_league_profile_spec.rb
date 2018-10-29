@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe "Scraper::LeagueProfile" do
+RSpec.describe Scraper::LeagueProfile do
   recaps_profile = Scraper::LeagueProfile.scrape( \
     "https://wftda.com/wftda-leagues/rose-city-rollers/")
   no_recaps_profile = Scraper::LeagueProfile.scrape( \

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe "GameRecap" do
+RSpec.describe GameRecap do
   recap = GameRecap.new({ author: "PullHitzHer Prize",
                           datetime: "2018-09-23T20:50:36+00:00",
                           year: 2018,

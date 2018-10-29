@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe "Scraper::LeagueList" do
+RSpec.describe Scraper::LeagueList do
   bomber_subset_url = "https://wftda.com/?s=bomber&post_type=leagues"
   bomber_subset = [
     { name: "Bradentucky Bombers Roller Derby League",

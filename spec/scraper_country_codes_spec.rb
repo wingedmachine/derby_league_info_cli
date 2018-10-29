@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe "Scraper::CountryCodes" do
+RSpec.describe Scraper::CountryCodes do
   it "returns a hash of countries as \"code: full_name\"" do
     country_codes = Scraper::CountryCodes.scrape
     expect(country_codes).to include( AF: "Afghanistan",

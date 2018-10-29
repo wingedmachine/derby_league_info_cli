@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe "DerbyLeague" do
+RSpec.describe DerbyLeague do
   league = DerbyLeague.new({ name: "Atlanta Rollergirls",
                              country: "US",
                              city: "Atlanta, GA",
