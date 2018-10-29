@@ -1,6 +1,5 @@
 class DerbyLeague
-  attr_reader :name, :country, :city, :is_full_member, :profile_url, :website, \
-    :game_recaps
+  attr_reader :name, :country, :city, :is_full_member, :website, :game_recaps
 
   def initialize(league)
     @name = league[:name]
@@ -8,11 +7,15 @@ class DerbyLeague
     @city = league[:city]
     @is_full_member = league[:is_full_member]
     @profile_url = league[:profile_url]
+  end
 
-    profile = Scraper::LeagueProfile.scrape(profile_url)
-    @website = profile[:website]
+  def load_details
+    return false if @website
+
+    profile = Scraper::LeagueProfile.scrape(@profile_url)
     @game_recaps = profile[:game_recaps].map do |recap|
       GameRecap.new(recap)
     end
+    @website = profile[:website]
   end
 end
