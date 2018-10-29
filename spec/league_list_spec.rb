@@ -13,7 +13,7 @@ RSpec.describe LeagueList do
     expect(name_array).to eq(name_array.sort)
   end
 
-  it "divides the list into 10 leagues pages" do
+  it "divides the list into 10 league pages" do
     expect(complete_list[0..-2].map(&:size) == 10).to all( be_true )
     expect(complete_list.last.size).to be <= 10
   end
