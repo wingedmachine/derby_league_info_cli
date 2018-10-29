@@ -14,10 +14,11 @@ module Pageable
   end
 
   module InstanceMethods
-    attr_reader :curr_page_num, :pages, :total_pages
+    attr_reader :curr_page_num, :pages, :single_page, :total_pages
 
     def initialize(flat_data, per_page = 10)
-      @pages = self.class.paginate_array(flat_data, per_page)
+      @single_page = flat_data
+      @pages = self.class.paginate_array(flat_data.dup, per_page)
       @curr_page_num = 1
       @total_pages = pages.size
     end
@@ -39,10 +40,6 @@ module Pageable
 
     def current_page
       pages[@curr_page_num - 1]
-    end
-
-    def ==(other)
-      self.class == other.class && self.pages == other.pages
     end
   end
 end

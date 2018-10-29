@@ -1,7 +1,9 @@
+require 'comparable/comparable'
 require 'pageable/pageable'
 
 class CountryList
   extend Pageable::ClassMethods
+  include Comparable::InstanceMethods
   include Pageable::InstanceMethods
 
   attr_reader :country_codes

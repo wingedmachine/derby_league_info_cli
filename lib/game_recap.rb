@@ -1,4 +1,8 @@
+require 'comparable/comparable'
+
 class GameRecap
+  include Comparable::InstanceMethods
+
   attr_reader :author, :datetime, :year, :event, :location, :game_number, \
     :teams, :url
 
