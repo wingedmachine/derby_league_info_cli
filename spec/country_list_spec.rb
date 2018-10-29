@@ -28,19 +28,7 @@ RSpec.describe CountryList do
   end
 
   it "orders countries alphabetically by name" do
-    name_array = country_list.country_names.flatten
+    name_array = country_list.pages.flatten
     expect(name_array).to eq(name_array.sort)
   end
-
-  it "divides the list into 10 country pages" do
-    expect(country_list.country_names[0..-2].map { |country| country.size  \
-      == 10 }).to all( be(true) )
-    expect(country_list.country_names.last.size).to be <= 10
-  end
-
-  xit "#next_page returns the next page if there is one" do end
-
-  xit "#prev_page returns the prev page if there is one" do end
-
-  xit "#turn_to returns a specific page if it exists" do end
 end

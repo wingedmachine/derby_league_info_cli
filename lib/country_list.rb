@@ -1,18 +1,14 @@
-require 'listable/listable'
 require 'pageable/pageable'
 
 class CountryList
   extend Pageable::ClassMethods
-  include Listable::InstanceMethods
   include Pageable::InstanceMethods
 
-  attr_reader :country_names, :countries
+  attr_reader :country_codes
 
-  def initialize(countries, per_page = 10)
-    @countries = countries
-    super(@countries)
-    sorted_names = countries.map { |key, value| value }.sort
-    @country_names = self.class.paginate_array(sorted_names, per_page)
+  def initialize(country_codes, per_page = 10)
+    @country_codes = country_codes
+    super(country_codes.map { |key, value| value }.sort, per_page)
   end
 
   def find_by_code(code)

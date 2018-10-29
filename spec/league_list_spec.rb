@@ -4,26 +4,10 @@ RSpec.describe LeagueList do
   complete_hash_array = Scraper::LeagueList.scrape
   complete_list = LeagueList.new(complete_hash_array)
 
-  it "has attr_readers for curr_page and total_pages" do
-    expect(complete_list).to respond_to(:curr_page, :total_pages)
-  end
-
   it "orders leagues alphabetically by name" do
     name_array = complete_list.leagues.flatten.map(&:name)
     expect(name_array).to eq(name_array.sort)
   end
-
-  it "divides the list into 10 league pages" do
-    expect(complete_list.leagues[0..-2].map { |league| league.size == 10 }).to \
-      all( be(true) )
-    expect(complete_list.leagues.last.size).to be <= 10
-  end
-
-  xit "#next_page returns the next page if there is one" do end
-
-  xit "#prev_page returns the prev page if there is one" do end
-
-  xit "#turn_to returns a specific page if it exists" do end
 
   xit "#find_by_country returns a new LeagueList of all leagues in a " \
     "specific country" do end

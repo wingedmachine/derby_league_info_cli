@@ -1,19 +1,13 @@
-require 'listable/listable'
 require 'pageable/pageable'
 
 class LeagueList
   extend Pageable::ClassMethods
-  include Listable::InstanceMethods
   include Pageable::InstanceMethods
 
   attr_reader :leagues
 
   def initialize(leagues, per_page = 10)
-    flat_leagues = process_raw_league_data(leagues)
-    @leagues = self.class.paginate_array(flat_leagues, per_page)
-    super(@leagues)
-    @curr_page = 1
-    @total_pages = leagues.size
+    super(process_raw_league_data(leagues), per_page)
   end
 
   def process_raw_league_data(raw_league_data)
