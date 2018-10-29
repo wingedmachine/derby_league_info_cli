@@ -1,11 +1,10 @@
 require "spec_helper"
 
 RSpec.describe LeagueList do
-  complete_hash_array = Scraper::LeagueList.scrape
-  complete_list = LeagueList.new(complete_hash_array).pages
+  let(:complete_list) { LeagueList.new(Scraper::LeagueList.scrape).pages }
+  let(:name_array) { complete_list.flatten.map(&:name) }
 
   it "orders leagues alphabetically by name" do
-    name_array = complete_list.flatten.map(&:name)
     expect(name_array).to eq(name_array.sort)
   end
 

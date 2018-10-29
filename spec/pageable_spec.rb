@@ -5,16 +5,16 @@ RSpec.describe Pageable do
     extend Pageable::ClassMethods
     include Pageable::InstanceMethods }.new((0..4).to_a, 1) }
 
-  let(:standard_page_size) { 10 }
-  let(:odd_page_size) { 13 }
-  let(:big_prime_number) { 97 }
-  let(:big_prime_range_array) { (1..97).to_a}
-  let(:standard_pages) { dummy_instance.class.paginate_array( \
-    big_prime_range_array) }
-  let(:odd_sized_pages) { dummy_instance.class.paginate_array( \
-    big_prime_range_array, odd_page_size) }
-
   context "ClassMethods" do
+    let(:standard_page_size) { 10 }
+    let(:odd_page_size) { 13 }
+    let(:big_prime_number) { 97 }
+    let(:big_prime_range_array) { (1..97).to_a}
+    let(:standard_pages) { dummy_instance.class.paginate_array( \
+      big_prime_range_array) }
+    let(:odd_sized_pages) { dummy_instance.class.paginate_array( \
+      big_prime_range_array, odd_page_size) }
+
     it "ClassMethods#paginate_array divides the list into pages" do
       expect(standard_pages[0..-2].map(&:size)).to all eq(standard_page_size)
       expect(standard_pages.last.size).to be <= standard_page_size

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe CountryList do
-  country_list = CountryList.new(Scraper::CountryCodes.scrape)
+  let(:country_list) { CountryList.new(Scraper::CountryCodes.scrape) }
 
   it "#find_by_code returns a country's full name when supplied its code" do
     expect(country_list.find_by_code("AF")).to eq("Afghanistan")

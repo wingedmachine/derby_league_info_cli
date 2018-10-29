@@ -1,10 +1,10 @@
 require "spec_helper"
 
 RSpec.describe Scraper::LeagueProfile do
-  recaps_profile = Scraper::LeagueProfile.scrape( \
-    "https://wftda.com/wftda-leagues/rose-city-rollers/")
-  no_recaps_profile = Scraper::LeagueProfile.scrape( \
-    "https://wftda.com/wftda-leagues/northern-arizona-roller-derby/")
+  let(:recaps_profile) { Scraper::LeagueProfile.scrape( \
+    "https://wftda.com/wftda-leagues/rose-city-rollers/") }
+  let(:no_recaps_profile) { Scraper::LeagueProfile.scrape( \
+    "https://wftda.com/wftda-leagues/northern-arizona-roller-derby/") }
 
   it "returns a hash with keys for website and game recaps" do
     expect(recaps_profile).to be_an_instance_of(Hash)

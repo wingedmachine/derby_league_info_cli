@@ -1,8 +1,8 @@
 require "spec_helper"
 
 RSpec.describe Scraper::LeagueList do
-  bomber_subset_url = "https://wftda.com/?s=bomber&post_type=leagues"
-  bomber_subset = [
+  let(:bomber_subset_url) { "https://wftda.com/?s=bomber&post_type=leagues" }
+  let(:bomber_subset) { [
     { name: "Bradentucky Bombers Roller Derby League",
       city: "Bradenton, FL",
       country: "US",
@@ -32,12 +32,12 @@ RSpec.describe Scraper::LeagueList do
       is_full_member: true,
       profile_url: "https://wftda.com/wftda-leagues/charm-city-roller-" \
         "girls/" }
-  ]
+  ] }
+  let(:league_list) { Scraper::LeagueList.scrape(bomber_subset_url) }
 
   it "returns an array of hashes with keys for name, city, country, " \
     "membership, and profile_url" do
 
-    league_list = Scraper::LeagueList.scrape(bomber_subset_url)
     expect(league_list).to be_an_instance_of(Array).and \
       all( be_an_instance_of(Hash) ).and \
       all ( have_key(:name) \
