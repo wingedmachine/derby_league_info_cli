@@ -32,7 +32,7 @@ RSpec.describe LeagueList do
   it "#search_by_name returns a new LeagueList of leagues whose name  " \
     "matches the supplied string, ignoring case" do
 
-    expect(north_subset.search_by_name("city")).to match_array(
+    expect(north_subset.search_by_name("city")).to eq(
       LeagueList.create_from_hash_array( [
         { name: "Rose City Rollers",
           city: "Portland, OR",
@@ -59,12 +59,25 @@ RSpec.describe LeagueList do
           is_full_member: true,
           profile_url: "https://wftda.com/wftda-leagues/" \
             "north-texas-roller-derby/"},
-        { name: "Nothwest Derby Company",
+        { name: "Northwest Derby Company",
           city: "Bremerton, WA",
           country: "US",
           is_full_member: true,
           profile_url: "https://wftda.com/wftda-leagues/" \
             "northwest-derby-company/"} ] ))
+    expect(north_subset.search_by_location("trALi")).to eq(
+      LeagueList.create_from_hash_array( [
+        { name: "Northside Rollers",
+          city: "Melbourne, VIC",
+          country: "AU",
+          is_full_member: true,
+          profile_url: "https://wftda.com/wftda-leagues" \
+            "/northside-rollers/"},
+        { name: "Northern Brisbane Rollers",
+          city: "Brisbane, QLD",
+          country: "AU",
+          is_full_member: true,
+          profile_url: "https://wftda.com/wftda-leagues/" \
+            "northern-brisbane-rollers/"} ] ))
   end
 end
-  

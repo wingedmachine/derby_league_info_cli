@@ -24,10 +24,19 @@ class LeagueList
   end
 
   def search_by_name(input)
-
+    input.downcase!
+    matching_leagues = single_page.select do |league|
+      league.name.downcase.include?(input)
+    end
+    LeagueList.new(matching_leagues)
   end
 
   def search_by_location(input)
-
+    input.downcase!
+    matching_leagues = single_page.select do |league|
+      league.city.downcase.include?(input) # \
+        #|| all_countries.find_by_code(league.country).downcase.include?(input)
+    end
+    LeagueList.new(matching_leagues)
   end
 end
