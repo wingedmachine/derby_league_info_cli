@@ -26,4 +26,8 @@ RSpec.describe CountryList do
     expect(country_list.search_by_name("united")).to eq(results)
     expect(results.search_by_name("OF")).to eq(sub_results)
   end
+
+  it "can return a paginated list of countries that have leagues" do
+    expect(false).to be_true
+  end
 end
