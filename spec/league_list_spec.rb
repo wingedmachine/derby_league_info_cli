@@ -1,19 +1,66 @@
 require "spec_helper"
 
 RSpec.describe LeagueList do
-  let(:complete_list) { LeagueList.new(Scraper::LeagueList.scrape).pages }
-  let(:name_array) { complete_list.flatten.map(&:name) }
+  let(:raw_north_subset) { Scraper::LeagueList.scrape( \
+    "https://wftda.com/?s=north&post_type=leagues") }
+  let(:north_subset) { LeagueList.new(raw_north_subset) }
+  let(:name_array) { north_subset.pages.flatten.map(&:name) }
 
   it "orders leagues alphabetically by name" do
     expect(name_array).to eq(name_array.sort)
   end
 
-  xit "#find_by_country returns a new LeagueList of all leagues in a " \
-    "specific country" do end
+  it "#find_by_countrycode returns a new LeagueList of all leagues in a " \
+    "specific country" do
 
-  xit "#search_by_name returns a new LeagueList of countries whose name  " \
-    "matches the supplied string, ignoring case" do end
+    expect(north_subset.find_by_country_code("AU")).to eq(
+      LeagueList.new( [ { name: "Northside Rollers",
+                          city: "Melbourne, VIC",
+                          country: "AU",
+                          is_full_member: true,
+                          profile_url: "https://wftda.com/wftda-leagues" \
+                            "/northside-rollers/"},
+                        { name: "Northern Brisbane Rollers",
+                          city: "Brisbane, QLD",
+                          country: "AU",
+                          is_full_member: true,
+                          profile_url: "https://wftda.com/wftda-leagues/" \
+                            "northern-brisbane-rollers/"} ] ))
+  end
 
-  xit "#search_by_location returns a new LeagueList of countries whose city  " \
-    " or country matches the supplied string, ignoring case" do end
+  it "#search_by_name returns a new LeagueList of leagues whose name  " \
+    "matches the supplied string, ignoring case" do
+
+    expect(north_subset.search_by_name("city")).to eq(
+      LeagueList.new( [ { name: "Rose City Rollers",
+                          city: "Portland, OR",
+                          country: "US",
+                          is_full_member: true,
+                          profile_url: "https://wftda.com/wftda-leagues/" \
+                            "rose-city-rollers/"},
+                        { name: "Rockin City Rollergirls",
+                          city: "Round Rock, TX",
+                          country: "US",
+                          is_full_member: true,
+                          profile_url: "https://wftda.com/wftda-leagues/" \
+                            "rockin-city-rollergirls/"} ] ))
+  end
+
+  it "#search_by_location returns a new LeagueList of leagues whose city  " \
+    " or country matches the supplied string, ignoring case" do
+
+    expect(north_subset.search_by_location("TON")).to eq(
+      LeagueList.new( [ { name: "North Texas Roller Derby",
+                          city: "Denton, TX",
+                          country: "US",
+                          is_full_member: true,
+                          profile_url: "https://wftda.com/wftda-leagues/" \
+                            "north-texas-roller-derby/"},
+                        { name: "Nothwest Derby Company",
+                          city: "Bremerton, WA",
+                          country: "US",
+                          is_full_member: true,
+                          profile_url: "https://wftda.com/wftda-leagues/" \
+                            "northwest-derby-company/"} ] ))
+  end
 end

@@ -7,11 +7,20 @@ class LeagueList
   attr_reader :leagues
 
   def initialize(leagues, per_page = 10)
-    super(process_raw_league_data(leagues), per_page)
+    flat_leagues = leagues.map { |league| DerbyLeague.new(league) }
+    flat_leagues.sort! { |league_1, league_2| league_1.name <=> league_2.name}
+    super(flat_leagues, per_page)
   end
 
-  def process_raw_league_data(raw_league_data)
-    flat_leagues = raw_league_data.map { |league| DerbyLeague.new(league) }
-    flat_leagues.sort! { |league_1, league_2| league_1.name <=> league_2.name}
+  def find_by_country_code(code)
+
+  end
+
+  def search_by_name(input)
+
+  end
+
+  def search_by_location(input)
+
   end
 end
