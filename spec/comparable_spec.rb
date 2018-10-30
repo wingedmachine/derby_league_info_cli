@@ -2,8 +2,6 @@ require "spec_helper"
 
 RSpec.describe Comparable do
   context "InstanceMethods" do
-    let(:raw_atl_subset) { Scraper::LeagueList.scrape( \
-      "https://wftda.com/?s=atlanta&post_type=leagues") }
     let(:object_1) { object = Class.new { include Comparable::InstanceMethods }
                      object.instance_variable_set("@str", "some text")}
     let(:object_2) { object = Class.new { include Comparable::InstanceMethods }

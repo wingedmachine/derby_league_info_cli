@@ -3,13 +3,14 @@ class LeagueList
   include Comparable::InstanceMethods
   include Pageable::InstanceMethods
 
-  def initialize(leagues, per_page = 10)
+  def initialize(leagues, per_page = Pageable::PerPageDefault)
     leagues.sort! { |league_1, league_2| league_1.name <=> league_2.name}
     super(leagues, per_page)
   end
 
-  def self.create_from_hash_array(leagues, per_page = 10)
-    LeagueList.new(leagues.map { |league| DerbyLeague.new(league) }, per_page)
+  def self.create_initial_list(raw_leagues, all_countries, per_page = Pageable::PerPageDefault)
+    @@all_countries = all_countries
+    LeagueList.new(raw_leagues.map { |league| League.new(league) }, per_page)
   end
 
   def find_by_country_code(code)

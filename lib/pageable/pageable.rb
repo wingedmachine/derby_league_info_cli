@@ -1,6 +1,8 @@
 module Pageable
+  PerPageDefault = 10
+
   module ClassMethods
-    def paginate_array(flat_array, per_page = 10)
+    def paginate_array(flat_array, per_page = PerPageDefault)
         paginated_array = []
         while flat_array.size > per_page
           new_page = []
@@ -16,7 +18,7 @@ module Pageable
   module InstanceMethods
     attr_reader :curr_page_num, :pages, :single_page, :total_pages
 
-    def initialize(flat_data, per_page = 10)
+    def initialize(flat_data, per_page = PerPageDefault)
       @single_page = flat_data
       @pages = self.class.paginate_array(flat_data.dup, per_page)
       @curr_page_num = 1

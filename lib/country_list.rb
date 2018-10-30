@@ -6,19 +6,24 @@ class CountryList
   include Comparable::InstanceMethods
   include Pageable::InstanceMethods
 
-  attr_reader :country_codes
-
-  def initialize(country_codes, per_page = 10)
-    @country_codes = country_codes
-    super(country_codes.map { |key, value| value }.sort, per_page)
+  def initialize(countries, per_page = Pageable::PerPageDefault)
+    countries.sort! do |country1, country_2|
+      country1.name.downcase <=> country_2.name.downcase
+    end
+    super(countries, per_page)
   end
 
-  def find_by_code(code)
-    country_codes[code.to_sym]
+  def self.create_initial_list(hash, per_page = Pageable::PerPageDefault)
+    countries = hash.map { |key, value| Country.new(key, value) }
+    CountryList.new(countries, per_page)
+  end
+
+  def find_name_by_code(code)
+    single_page.detect { |country| country.code == code }.name
   end
 
   def search_by_name(input)
-    CountryList.new(country_codes.select { |key, value| value.upcase.include? \
-      (input.upcase) })
+    CountryList.new(single_page.select { |country| country.name.downcase \
+      .include?(input) })
   end
 end

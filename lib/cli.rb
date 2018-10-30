@@ -2,20 +2,19 @@ class CLI
   attr_reader :all_countries, :all_leagues
 
   def start
-    CLI.loading
+    loading
     load_initial
-    CLI.greet
+    greet
     main_loop
-    CLI.goodbye
+    goodbye
   end
 
   def load_initial
-    countries = Scraper::CountryCodes.scrape
-    leagues = Scraper::LeagueList.scrape
-    countries_with_leagues = leagues.map { |league| league[:country] }.uniq
-    countries.keep_if { |key, value| countries_with_leagues.include?(key.to_s) }
-    @all_leagues = LeagueList.create_from_hash_array(leagues).freeze
-    @all_countries = CountryList.new(countries).freeze
+
+  # countries_with_leagues = leagues.map { |league| league[:country] }.uniq
+  # countries.keep_if { |key, value| countries_with_leagues.include?(key.to_s) }
+  #   @all_leagues = LeagueList.create_initial_list( \
+  #     Scraper::LeagueList.scrape, Scraper::CountryCodes.scrape).freeze
   end
 
   def main_loop
@@ -26,15 +25,15 @@ class CLI
     end
   end
 
-  def self.loading
+  def loading
     puts "loading..."
   end
 
-  def self.greet
+  def greet
     puts "Welcome to the DLIC"
   end
 
-  def self.goodbye
+  def goodbye
     puts "Have a nice day!"
   end
 end

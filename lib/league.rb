@@ -1,4 +1,4 @@
-class DerbyLeague
+class League
   include Comparable::InstanceMethods
 
   attr_reader :name, :country, :city, :is_full_member, :website, :game_recaps

@@ -9,8 +9,7 @@ RSpec.describe Scraper::CountryCodes do
                                       IN: "India",
                                       JP: "Japan",
                                       TR: "Turkey",
-                                      ZW: "Zimbabwe"
-                                    )
+                                      ZW: "Zimbabwe" )
     expect(country_codes.keys).to all( match(/\A[A-Z]{2}\z/) )
     expect(country_codes.values).to all (be_an_instance_of(String))
   end
