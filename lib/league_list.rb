@@ -8,7 +8,9 @@ class LeagueList
     super(leagues, per_page)
   end
 
-  def self.create_initial_list(raw_leagues, all_countries, per_page = Pageable::PerPageDefault)
+  def self.create_initial_list(raw_leagues, all_countries, per_page = \
+    Pageable::PerPageDefault)
+
     @@all_countries = all_countries
     LeagueList.new(raw_leagues.map { |league| League.new(league) }, per_page)
   end
