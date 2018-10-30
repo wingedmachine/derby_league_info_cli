@@ -1,21 +1,21 @@
-class Cli
-  def start
-    greet
-    load_initial
-    load_complete
-    main_loop
-    goodbye
-  end
+class CLI
+  attr_reader :all_countries, :all_leagues
 
-  def greet
-    puts "Welcome to thing, wait for load..."
+  def start
+    CLI.loading
+    load_initial
+    CLI.greet
+    main_loop
+    CLI.goodbye
   end
 
   def load_initial
-  end
-
-  def load_complete
-    puts "Load done thins will start"
+    countries = Scraper::CountryCodes.scrape
+    leagues = Scraper::LeagueList.scrape
+    countries_with_leagues = leagues.map { |league| league[:country] }.uniq
+    countries.keep_if { |key, value| countries_with_leagues.include?(key.to_s) }
+    @all_leagues = LeagueList.create_from_hash_array(leagues).freeze
+    @all_countries = CountryList.new(countries).freeze
   end
 
   def main_loop
@@ -26,7 +26,15 @@ class Cli
     end
   end
 
-  def goodbye
-    puts "fuck outta here"
+  def self.loading
+    puts "loading..."
+  end
+
+  def self.greet
+    puts "Welcome to the DLIC"
+  end
+
+  def self.goodbye
+    puts "Have a nice day!"
   end
 end
