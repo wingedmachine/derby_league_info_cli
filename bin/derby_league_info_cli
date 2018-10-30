@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "derby_league_info_cli"
+
+CLI.new.start

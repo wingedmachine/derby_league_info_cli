@@ -10,6 +10,5 @@ require "derby_league_info_cli"
 # require "pry"
 # Pry.start
 
-# require "irb"
-# IRB.start
-Cli.new.start
+require "irb"
+IRB.start
