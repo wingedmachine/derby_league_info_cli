@@ -26,22 +26,42 @@ module Pageable
     end
 
     def next_page
-      turn_to(curr_page_num + 1)
+      if curr_page_num < total_pages
+        turn_to(curr_page_num + 1)
+      else
+        puts "No next page"
+      end
     end
 
     def prev_page
-      turn_to(curr_page_num - 1)
+      if curr_page_num > 1
+        turn_to(curr_page_num - 1)
+      else
+        puts "No prev page"
+      end
     end
 
     def turn_to(page_num)
-      return nil unless page_num >= 1 && page_num <= total_pages
-
-      @curr_page_num = page_num
-      current_page
+      if page_num >= 1 && page_num <= total_pages
+        @curr_page_num = page_num
+        current_page
+      else
+        puts "Invalid page number"
+        nil
+      end
     end
 
     def current_page
       pages[@curr_page_num - 1]
+    end
+
+    def display_current_page
+      i = 1
+      until i > current_page.size
+        puts "#{" " if i.to_s.length == 1}#{i}) #{current_page[i - 1].name}"
+        i += 1
+      end
+      puts "       Page #{curr_page_num} of #{total_pages}"
     end
   end
 end
