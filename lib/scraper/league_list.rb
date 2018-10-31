@@ -7,7 +7,7 @@ module Scraper
           location = get_location(league)
           { name: get_league_name(league),
             city: location[0],
-            country: location[1],
+            country_code: location[1],
             is_full_member: get_membership(league),
             profile_url: get_profile_url(league)
           }

@@ -3,28 +3,29 @@ class LeagueList
   include Comparable::InstanceMethods
   include Pageable::InstanceMethods
 
-  @@all_countries = []
-  def all_countries
-    @@all_countries
-  end
+  attr_reader :countries
 
   def initialize(leagues, per_page = Pageable::PerPageDefault)
     leagues.sort! { |league_1, league_2| league_1.name <=> league_2.name}
     super(leagues, per_page)
   end
 
-  def self.create_initial_list(raw_leagues, all_countries, per_page = \
+  def self.create_initial_list(raw_leagues, countries, per_page = \
     Pageable::PerPageDefault)
 
-    @@all_countries = all_countries
-    LeagueList.new(raw_leagues.map { |league| League.new(league) }, per_page)
+    @countries = countries
+    leagues = raw_leagues.map do |league|
+      leagues_country = countries.single_page.detect do |country|
+        country.code == league[:country_code]
+      end
+      League.new(league, leagues_country)
+    end
+    countries.finalize_leagues
+    LeagueList.new(leagues, per_page)
   end
 
   def find_by_country_code(code)
-    leagues_in_country = single_page.select do |league|
-      league.country == code
-    end
-    LeagueList.new(leagues_in_country)
+    countries.single_page.detect { |country| country.code == code}.leagues
   end
 
   def search_by_name(input)
@@ -35,12 +36,9 @@ class LeagueList
   end
 
   def search_by_location(input)
-    matching_country_codes = all_countries.single_page.select do |country|
-      country.name.downcase.include?(input)
-    end.map(&:code)
     matching_leagues = single_page.select do |league|
       league.city.downcase.include?(input) \
-        || matching_country_codes.include?(league.country)
+        || league.country.name.downcase.include?(input)
     end
     LeagueList.new(matching_leagues)
   end

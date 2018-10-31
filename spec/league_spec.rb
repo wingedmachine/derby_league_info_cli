@@ -2,11 +2,12 @@ require "spec_helper"
 
 RSpec.describe League do
   let(:league) { League.new({ name: "Atlanta Rollergirls",
-                             country: "US",
+                             country_code: "US",
                              city: "Atlanta, GA",
                              is_full_member: true,
                              profile_url: "https://wftda.com/wftda-leagues" \
-                               "/atlanta-rollergirls/" }) }
+                               "/atlanta-rollergirls/" },
+                             Country.new("US", "United States of America")) }
 
   it "should have attr_readers for name, country, city, is_full_member, " \
     "website, and game_recaps" do

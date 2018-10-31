@@ -26,4 +26,8 @@ class CountryList
     CountryList.new(single_page.select { |country| country.name.downcase \
       .include?(input) })
   end
+
+  def finalize_leagues
+    single_page.each(&:finalize_leagues)
+  end
 end
