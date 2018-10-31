@@ -11,30 +11,28 @@ class CLI
   private
 
   def initial_setup
-    tell_user_data_is_loading
     # below line lays groundwork for allowing user-suppplied value via argument
     # in a hypothetical future update
     @items_per_page = Pageable::PerPageDefault
+
+    puts "Loading league data..."
     leagues = Scraper::LeagueList.scrape
-    countries = Scraper::CountryCodes.scrape
+
+    puts "Loading country data..."
+    countries = Scraper::Countries.scrape
+
+    puts "Cross-referencing data..."
     countries_with_leagues = leagues.map { |league| league[:country] }.uniq
-    countries.keep_if { |key, value| countries_with_leagues.include?(key.to_s) }
+    countries.select { |key, value| countries_with_leagues.include?(key.to_s) }
+
+    puts "Creating data structures..."
     country_list = CountryList.create_initial_list(countries)
     @all_leagues = LeagueList.create_initial_list(leagues, country_list)
     @subset_stack = [@all_leagues]
-    greet
-  end
-
-  def tell_user_data_is_loading
-    puts "loading..."
-  end
-
-  def greet
-    puts "    Welcome to the DLIC!\n" \
-         "type HELP to see available commands"
   end
 
   def main_loop
+    greet
     current_subset.display_current_page
     input = nil
     until input == "exit"
@@ -42,6 +40,12 @@ class CLI
       print "DLIC > "
       input = gets.downcase.strip
     end
+  end
+
+  def greet
+    puts "\n" \
+         "Welcome to the DLIC!\n" \
+         "type HELP to see available commands"
   end
 
   def exec_command(raw_command)
@@ -77,12 +81,11 @@ class CLI
   end
 
   def do_search(arguments)
-    search_results = if true # test league/country mode here, but for now forcing it to be league
+    @subset_stack << if current_subset.is_a?(LeagueList)
                        do_league_search(arguments)
                      else
                        do_country_search(arguments[0])
                      end
-    @subset_stack << search_results
     current_subset.display_current_page
   end
 
