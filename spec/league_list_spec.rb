@@ -51,6 +51,9 @@ RSpec.describe LeagueList do
                                        northwest_derby_company,
                                        rose_city_rollers]) }
   let(:name_array) { north_subset.pages.flatten.map(&:name) }
+  let(:all_countries_in_north_subset) { CountryList.new([
+    Country.new("AU", "Australia"),
+    Country.new("US", "United States of America") ]) }
 
   it "orders leagues alphabetically by name" do
     expect(name_array).to eq(name_array.sort)
@@ -73,9 +76,11 @@ RSpec.describe LeagueList do
   it "#search_by_location returns a new LeagueList of leagues whose city  " \
     " or country matches the supplied string, ignoring case" do
 
+    allow(north_subset).to receive(:all_countries) \
+      { all_countries_in_north_subset }
     expect(north_subset.search_by_location("ton")).to eq(
       LeagueList.new([north_texas_roller_derby, northwest_derby_company]) )
-    # expect(north_subset.search_by_location("trali")).to eq(
-    #   LeagueList.new([northside_rollers, northern_brisbane_rollers]) )
+    expect(north_subset.search_by_location("trali")).to eq(
+      LeagueList.new([northside_rollers, northern_brisbane_rollers]) )
   end
 end
