@@ -4,6 +4,10 @@ class CLI
     main_loop
   end
 
+  def current_subset
+    @subset_stack.last
+  end
+
   private
 
   def initial_setup
@@ -15,13 +19,10 @@ class CLI
     countries = Scraper::CountryCodes.scrape
     countries_with_leagues = leagues.map { |league| league[:country] }.uniq
     countries.keep_if { |key, value| countries_with_leagues.include?(key.to_s) }
-    @all_leagues = LeagueList.create_initial_list(leagues, countries)
-    @subsets = [@all_leagues]
+    country_list = CountryList.create_initial_list(countries)
+    @all_leagues = LeagueList.create_initial_list(leagues, country_list)
+    @subset_stack = [@all_leagues]
     greet
-  end
-
-  def current_subset
-    @subsets.last
   end
 
   def tell_user_data_is_loading
@@ -49,11 +50,13 @@ class CLI
     command = process_command(raw_command)
 
     # Extra words included in the command will be ignored. For example,
-    # 'help me move this sofa up these stairs' will be treated as 'help'
+    # 'help me move this sofa up these stairs' will be treated as 'help'.
+    # On the other hand 'search -l Australia is the best country' will
+    # come up empty, as no locations include "Australia is the best country"
 
     case command[0]
     when (1..@items_per_page)
-    when "search"
+    when "search" then do_search(command[1..-1])
     when "countries"
     when "leagues"
     when "next" then do_next
@@ -71,6 +74,36 @@ class CLI
     words = command.split(" ")
     words[0] = words[0].to_i if words[0].to_i != 0
     [words[0], [words[1..-1]]].flatten
+  end
+
+  def do_search(arguments)
+    search_results = if true # test league/country mode here, but for now forcing it to be league
+                       do_league_search(arguments)
+                     else
+                       do_country_search(arguments[0])
+                     end
+    @subset_stack << search_results
+    current_subset.display_current_page
+  end
+
+  def do_league_search(arguments)
+    if arguments[0].upcase == "-L"
+      do_league_location_search(arguments[1..-1].join(" "))
+    else
+      do_league_name_search(arguments[0..-1].join(" "))
+    end
+  end
+
+  def do_league_location_search(search_term)
+    current_subset.search_by_location(search_term)
+  end
+
+  def do_league_name_search(search_term)
+    current_subset.search_by_name(search_term)
+  end
+
+  def do_country_search(search_term)
+
   end
 
   def do_next
@@ -93,14 +126,18 @@ class CLI
   end
 
   def do_reset
-    @subsets = [@all_leagues]
+    @subset_stack = [@all_leagues]
     current_subset.turn_to(1)
     current_subset.display_current_page
   end
 
   def do_undo
-    @subsets.pop if @subsets.size > 1
-    current_subset.turn_to(1)
+    if @subset_stack.size > 1
+      @subset_stack.pop
+      current_subset.turn_to(1)
+    else
+      puts "No search to undo"
+    end
     current_subset.display_current_page
   end
 
