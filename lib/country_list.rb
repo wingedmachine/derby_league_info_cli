@@ -6,20 +6,15 @@ class CountryList
   include Comparable::InstanceMethods
   include Pageable::InstanceMethods
 
+  def leagues
+    @leagues ||= single_page.map(&:leagues).flatten.uniq
+  end
+
   def initialize(countries, per_page = Pageable::PerPageDefault)
-    countries.sort! do |country1, country_2|
-      country1.name.downcase <=> country_2.name.downcase
+    countries.sort! do |country_1, country_2|
+      country_1.name.downcase <=> country_2.name.downcase
     end
     super(countries, per_page)
-  end
-
-  def leagues
-    single_page.map()
-  end
-
-  def self.create_initial_list(hash, per_page = Pageable::PerPageDefault)
-    countries = hash.map { |key, value| Country.new(key, value) }
-    CountryList.new(countries, per_page)
   end
 
   def find_name_by_code(code)

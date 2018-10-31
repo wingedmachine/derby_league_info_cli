@@ -3,10 +3,10 @@ class Country
 
   attr_reader :code, :leagues, :name
 
-  def initialize(code, name)
-    @code = code
+  def initialize(country_hash)
+    @code = country_hash[:code]
+    @name = country_hash[:name]
     @leagues = []
-    @name = name
   end
 
   def add_league(league)

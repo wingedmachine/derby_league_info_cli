@@ -1,35 +1,51 @@
 class CLI
-  def start
-    initial_setup
-    main_loop
-  end
-
   def current_subset
     @subset_stack.last
   end
 
-  private
+  def start
+    initial_setup
+    main_loop
+  end
 
   def initial_setup
     # below line lays groundwork for allowing user-suppplied value via argument
     # in a hypothetical future update
     @items_per_page = Pageable::PerPageDefault
 
-    puts "Loading league data..."
-    leagues = Scraper::LeagueList.scrape
-
     puts "Loading country data..."
-    countries = Scraper::Countries.scrape
+    raw_countries = Scraper::Countries.scrape
+
+    puts "Loading league data..."
+    raw_leagues = Scraper::LeagueList.scrape
 
     puts "Cross-referencing data..."
-    countries_with_leagues = leagues.map { |league| league[:country_code] }.uniq
-    countries.select { |country| countries_with_leagues.include?(country[1]) }
+    leagues, countries = cross_reference(raw_leagues, raw_countries)
 
     puts "Creating data structures..."
-    country_list = CountryList.create_initial_list(countries)
-    @all_leagues = LeagueList.create_initial_list(leagues, country_list)
+    @all_leagues = LeagueList.create_initial_list(leagues, countries)
     @subset_stack = [@all_leagues]
     @search_stack = []
+  end
+
+  def cross_reference(raw_leagues, raw_countries)
+    located_leagues = []
+    countries_with_leagues = raw_countries.map do |raw_country|
+      country = Country.new(raw_country)
+      contains_at_least_one_league = false
+      raw_leagues.delete_if do |league|
+        if league[:country_code] != country.code
+          false
+        else
+          located = league.dup
+          located[:country] = country
+          located_leagues << located
+          contains_at_least_one_league = true
+        end
+      end
+      contains_at_least_one_league ? country : nil
+    end.compact
+    return located_leagues, countries_with_leagues
   end
 
   def main_loop
@@ -118,8 +134,9 @@ class CLI
 
   def show_countries
     if current_subset.is_a?(LeagueList)
-      if @subset_stack[-2] != current_subset.countries
-        @subset_stack << current_subset.countries
+      new_country_list = CountryList.new(current_subset.countries)
+      if @subset_stack[-2] != new_country_list
+        @subset_stack << new_country_list
         display_current_page
       else
         undo

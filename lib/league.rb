@@ -3,9 +3,9 @@ class League
 
   attr_reader :name, :country, :city, :is_full_member, :website, :game_recaps
 
-  def initialize(league, country)
+  def initialize(league)
     @name = league[:name]
-    @country = country
+    @country = league[:country]
     country.add_league(self)
     @city = league[:city]
     @is_full_member = league[:is_full_member]
