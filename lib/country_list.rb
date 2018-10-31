@@ -13,6 +13,10 @@ class CountryList
     super(countries, per_page)
   end
 
+  def leagues
+    single_page.map()
+  end
+
   def self.create_initial_list(hash, per_page = Pageable::PerPageDefault)
     countries = hash.map { |key, value| Country.new(key, value) }
     CountryList.new(countries, per_page)
@@ -25,9 +29,5 @@ class CountryList
   def search_by_name(input)
     CountryList.new(single_page.select { |country| country.name.downcase \
       .include?(input) })
-  end
-
-  def finalize_leagues
-    single_page.each(&:finalize_leagues)
   end
 end

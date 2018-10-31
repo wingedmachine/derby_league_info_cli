@@ -22,18 +22,19 @@ class CLI
     countries = Scraper::Countries.scrape
 
     puts "Cross-referencing data..."
-    countries_with_leagues = leagues.map { |league| league[:country] }.uniq
-    countries.select { |key, value| countries_with_leagues.include?(key.to_s) }
+    countries_with_leagues = leagues.map { |league| league[:country_code] }.uniq
+    countries.select { |country| countries_with_leagues.include?(country[1]) }
 
     puts "Creating data structures..."
     country_list = CountryList.create_initial_list(countries)
     @all_leagues = LeagueList.create_initial_list(leagues, country_list)
     @subset_stack = [@all_leagues]
+    @search_stack = []
   end
 
   def main_loop
     greet
-    current_subset.display_current_page
+    display_current_page
     input = nil
     until input == "exit"
       exec_command(input)
@@ -48,6 +49,17 @@ class CLI
          "type HELP to see available commands"
   end
 
+  def display_current_page
+    display_title
+    current_subset.display_current_page
+  end
+
+  def display_title
+    title = "All Leagues"
+    puts "\n" \
+         "#{title}"
+  end
+
   def exec_command(raw_command)
     return nil if raw_command == nil
 
@@ -59,16 +71,16 @@ class CLI
     # come up empty, as no locations include "Australia is the best country"
 
     case command[0]
-    when (1..@items_per_page)
-    when "search" then do_search(command[1..-1])
-    when "countries"
-    when "leagues"
-    when "next" then do_next
-    when "prev" then do_prev
-    when "page" then do_page(command[1])
-    when "reset" then do_reset
-    when "undo" then do_undo
-    when "help" then do_help
+    when (1..@items_per_page) then choose(command[0])
+    when "search" then search(command[1..-1])
+    when "countries" then show_countries
+    when "leagues" then show_leagues
+    when "next" then next_page
+    when "prev" then prev
+    when "page" then page(command[1])
+    when "reset" then reset
+    when "undo" then undo
+    when "help" then show_help
     else
       puts "I don't recognize that command"
     end
@@ -80,76 +92,99 @@ class CLI
     [words[0], [words[1..-1]]].flatten
   end
 
-  def do_search(arguments)
-    @subset_stack << if current_subset.is_a?(LeagueList)
-                       do_league_search(arguments)
+  def search(arguments)
+    search_results = if !current_subset.is_a?(LeagueList) \
+                       || arguments[0].upcase != "-L"
+
+                       name_search(arguments[0..-1].join(" "))
                      else
-                       do_country_search(arguments[0])
+                       league_location_search(arguments[1..-1].join(" "))
                      end
-    current_subset.display_current_page
+    return nil unless search_results.is_a?(CountryList) \
+      || search_results.is_a?(LeagueList)
+
+    @subset_stack << search_results
+    @search_stack << arguments
+    display_current_page
   end
 
-  def do_league_search(arguments)
-    if arguments[0].upcase == "-L"
-      do_league_location_search(arguments[1..-1].join(" "))
-    else
-      do_league_name_search(arguments[0..-1].join(" "))
-    end
-  end
-
-  def do_league_location_search(search_term)
+  def league_location_search(search_term)
     current_subset.search_by_location(search_term)
   end
 
-  def do_league_name_search(search_term)
+  def name_search(search_term)
     current_subset.search_by_name(search_term)
   end
 
-  def do_country_search(search_term)
-
+  def show_countries
+    if current_subset.is_a?(LeagueList)
+      if @subset_stack[-2] != current_subset.countries
+        @subset_stack << current_subset.countries
+        display_current_page
+      else
+        undo
+      end
+    else
+      puts "Already viewing countries"
+    end
   end
 
-  def do_next
+  def show_leagues
+    if current_subset.is_a?(CountryList)
+      new_league_list = LeagueList.new(current_subset.leagues)
+      if @subset_stack[-2] != new_league_list
+        @subset_stack << new_league_list
+        display_current_page
+      else
+        undo
+      end
+    else
+      puts "Already viewing leagues"
+    end
+  end
+
+  def next_page
     current_subset.next_page
-    current_subset.display_current_page
+    display_current_page
   end
 
-  def do_prev
+  def prev
     current_subset.prev_page
-    current_subset.display_current_page
+    display_current_page
   end
 
-  def do_page(page)
+  def page(page)
     if page != nil && (page.to_i != 0 || page ==  "0")
       current_subset.turn_to(page.to_i)
-      current_subset.display_current_page
+      display_current_page
     else
       puts "You must specify a page number"
     end
   end
 
-  def do_reset
+  def reset
     @subset_stack = [@all_leagues]
     current_subset.turn_to(1)
-    current_subset.display_current_page
+    display_current_page
   end
 
-  def do_undo
+  def undo
     if @subset_stack.size > 1
       @subset_stack.pop
+      @search_stack.pop
       current_subset.turn_to(1)
     else
       puts "No search to undo"
     end
-    current_subset.display_current_page
+    display_current_page
   end
 
-  def do_help
+  def show_help
     puts \
       "Navigation\n" \
      "  Entering the number of an item on screen will select it\n" \
-     "  'COUNTRIES' will display a list of countries that contain leagues\n" \
-     "  'LEAGUES' will return to the list of leagues from the country list\n" \
+     "  'COUNTRIES' will display a list of the current leagues' countries\n" \
+     "  'LEAGUES' will display a list of the current countries' leagues\n" \
      "  'NEXT' and 'PREV' will give the next and previous pages of options\n" \
      "  'PAGE [number]' will turn directly to that page\n" \
      "  'RESET' will return to the starting screen\n" \

@@ -65,14 +65,13 @@ RSpec.describe LeagueList do
     expect(name_array).to eq(name_array.sort)
   end
 
-  it "#find_by_countrycode returns a new LeagueList of all leagues in a " \
-    "specific country" do
+  it "#find_by_countrycode returns a new league hash array of all leagues in " \
+    "a specific country" do
 
     allow(north_subset).to receive(:countries) \
       { countries_in_north_subset }
-    countries_in_north_subset.finalize_leagues
     expect(north_subset.find_by_country_code("AU")).to eq( \
-      LeagueList.new([northside_rollers, northern_brisbane_rollers]) )
+      [northside_rollers, northern_brisbane_rollers])
   end
 
   it "#search_by_name returns a new LeagueList of leagues whose name  " \
@@ -86,7 +85,6 @@ RSpec.describe LeagueList do
 
     allow(north_subset).to receive(:countries) \
       { countries_in_north_subset }
-    countries_in_north_subset.finalize_leagues
     expect(north_subset.search_by_location("ton")).to eq(
       LeagueList.new([north_texas_roller_derby, northwest_derby_company]) )
     expect(north_subset.search_by_location("trali")).to eq(

@@ -3,7 +3,9 @@ class LeagueList
   include Comparable::InstanceMethods
   include Pageable::InstanceMethods
 
-  attr_reader :countries
+  def countries
+    @countries ||= CountryList.new(single_page.map(&:country).uniq)
+  end
 
   def initialize(leagues, per_page = Pageable::PerPageDefault)
     leagues.sort! { |league_1, league_2| league_1.name <=> league_2.name}
@@ -13,14 +15,12 @@ class LeagueList
   def self.create_initial_list(raw_leagues, countries, per_page = \
     Pageable::PerPageDefault)
 
-    @countries = countries
     leagues = raw_leagues.map do |league|
       leagues_country = countries.single_page.detect do |country|
         country.code == league[:country_code]
       end
       League.new(league, leagues_country)
     end
-    countries.finalize_leagues
     LeagueList.new(leagues, per_page)
   end
 
