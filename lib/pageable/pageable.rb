@@ -55,13 +55,8 @@ module Pageable
       pages[@curr_page_num - 1]
     end
 
-    def display_current_page
-      i = 1
-      until i > current_page.size
-        puts "#{" " if i.to_s.length == 1}#{i}) #{current_page[i - 1].name}"
-        i += 1
-      end
-      puts "       Page #{curr_page_num} of #{total_pages}"
+    def get_current_page
+      return current_page, curr_page_num, total_pages
     end
   end
 end

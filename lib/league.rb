@@ -16,9 +16,13 @@ class League
     return false if @website
 
     profile = Scraper::LeagueProfile.scrape(@profile_url)
-    @game_recaps = profile[:game_recaps].map do |recap|
-      GameRecap.new(recap)
-    end
     @website = profile[:website]
+    if profile[:game_recaps] == nil
+      @game_recaps = nil
+    else
+      @game_recaps = profile[:game_recaps].map do |recap|
+        GameRecap.new(recap)
+      end
+    end
   end
 end

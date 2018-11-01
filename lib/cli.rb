@@ -52,9 +52,16 @@ class CLI
     display_current_page
     input = nil
     until input == "exit"
-      exec_command(input)
-      print "DLIC > "
-      input = gets.downcase.strip
+      if !@league_display_mode
+        print "DLIC > "
+        input = gets.downcase.strip
+        exec_command(input) unless input == "exit"
+      else
+        puts "\nPress 'enter' to return to the previous screen"
+        gets
+        @league_display_mode = false
+        display_current_page
+      end
     end
   end
 
@@ -65,7 +72,14 @@ class CLI
   end
 
   def display_current_page
-    current_subset.display_current_page
+    page, page_num, total_pages = current_subset.get_current_page
+
+    i = 1
+    until i > page.size
+      puts "#{" " if i.to_s.length == 1}#{i}) #{page[i - 1].name}"
+      i += 1
+    end
+    puts "       Page #{page_num} of #{total_pages}"
   end
 
   def exec_command(raw_command)
@@ -102,11 +116,38 @@ class CLI
 
   def choose(num)
     if current_subset.is_a?(LeagueList)
-      current_subset.current_page[num - 1].display_details
+      league = current_subset.current_page[num - 1]
+      league.load_details
+      display_league(league)
     else
       @subset_stack << LeagueList.search_by_country( \
         @subset_stack[-2], current_subset.current_page[num - 1])
       display_current_page
+    end
+  end
+
+  def display_league(league)
+    @league_display_mode = true
+    puts "#{league.name}\n" \
+         "WFTDA #{league.is_full_member ? "member" : "apprentice"} league\n" \
+         "Based in #{league.city}, #{league.country.name}\n" \
+         "Their website is #{league.website}\n\n"
+    display_game_recaps(league.game_recaps)
+  end
+
+  def display_game_recaps(recaps)
+    if recaps.nil?
+      puts "No game recaps for this team are available."
+    else
+      puts "GAME RECAPS:"
+      recaps.each do |recap|
+        puts "Game #{recap.game_number} of the #{recap.year} " \
+               "#{recap.event} in #{recap.location}\n" \
+             "  #{recap.teams[0]} vs #{recap.teams[1]}\n" \
+             "  written by #{recap.author}\n" \
+             "  last updated #{recap.datetime}\n" \
+             "  #{recap.url}"
+      end
     end
   end
 
