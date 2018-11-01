@@ -253,7 +253,6 @@ class CLI
      "    'SEARCH [search term]' will search for leagues by name\n" \
      "    'SEARCH -L [search term]' will search for leagues by location\n" \
      "  If the screen is currently displaying countries, then:\n" \
-     "    'SEARCH [search term]' will search for countries by name\n" \
-     "  Adding -n will always search within the previous search results"
+     "    'SEARCH [search term]' will search for countries by name"
   end
 end
