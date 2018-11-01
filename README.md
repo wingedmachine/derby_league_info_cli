@@ -5,19 +5,11 @@ information about WFTDA member and apprentice leagues.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+1. 'cd' to the directory
+2. use 'bundle install'
+3. 'bin\derby_league_info_cli'
 
-```ruby
-gem 'derby_league_info_cli'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install derby_league_info_cli
+Probably there is a better way, but I don't know what it is.
 
 ## Usage
 
