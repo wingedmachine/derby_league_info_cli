@@ -1,57 +1,59 @@
 require "spec_helper"
 
 RSpec.describe LeagueList do
-  let (:australia) { Country.new("AU", "Australia") }
-  let (:america) { Country.new("US", "United States of America") }
+  let (:australia) { Country.new({ code:"AU",
+                                   name: "Australia" }) }
+  let (:america) { Country.new({ code: "US",
+                                 name: "United States of America" }) }
   let(:countries_in_north_subset) { CountryList.new([australia, america]) }
   let(:north_texas_roller_derby) { League.new(
     { name: "North Texas Roller Derby",
       city: "Denton, TX",
-      country: "US",
+      country_code: "US",
+      country: america,
       is_full_member: true,
       profile_url: "https://wftda.com/wftda-leagues/" \
-        "north-texas-roller-derby/" },
-      america) }
+        "north-texas-roller-derby/" }) }
   let(:northern_brisbane_rollers) { League.new(
     { name: "Northern Brisbane Rollers",
       city: "Brisbane, QLD",
-      country: "AU",
+      country_code: "AU",
+      country: australia,
       is_full_member: true,
       profile_url: "https://wftda.com/wftda-" \
-        "leagues/northern-brisbane-rollers/" },
-      australia) }
+        "leagues/northern-brisbane-rollers/" }) }
   let(:northside_rollers) { League.new(
     { name: "Northside Rollers",
       city: "Melbourne, VIC",
-      country: "AU",
+      country_code: "AU",
+      country: australia,
       is_full_member: true,
       profile_url: "https://wftda.com/wftda-leagues" \
-        "/northside-rollers/" },
-      australia) }
+        "/northside-rollers/" }) }
   let(:northwest_derby_company) { League.new(
     { name: "Northwest Derby Company",
       city: "Bremerton, WA",
-      country: "US",
+      country_code: "US",
+      country: america,
       is_full_member: true,
       profile_url: "https://wftda.com/wftda-leagues/" \
-        "northwest-derby-company/"},
-      america) }
+        "northwest-derby-company/" }) }
   let(:rockin_city_rollergirls) { League.new(
     { name: "Rockin City Rollergirls",
       city: "Round Rock, TX",
-      country: "US",
+      country_code: "US",
+      country: america,
       is_full_member: true,
       profile_url: "https://wftda.com/wftda-leagues/" \
-        "rockin-city-rollergirls/" },
-      america) }
+        "rockin-city-rollergirls/" }) }
   let(:rose_city_rollers) { League.new(
     { name: "Rose City Rollers",
       city: "Portland, OR",
-      country: "US",
+      country_code: "US",
+      country: america,
       is_full_member: true,
       profile_url: "https://wftda.com/wftda-leagues/" \
-        "rose-city-rollers/" },
-      america) }
+        "rose-city-rollers/" }) }
 
   let(:north_subset) { LeagueList.new([north_texas_roller_derby,
                                        northside_rollers,

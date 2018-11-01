@@ -17,10 +17,6 @@ class CountryList
     super(countries, per_page)
   end
 
-  def find_name_by_code(code)
-    single_page.detect { |country| country.code == code }.name
-  end
-
   def search_by_name(input)
     CountryList.new(single_page.select { |country| country.name.downcase \
       .include?(input) })
