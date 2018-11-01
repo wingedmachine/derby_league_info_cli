@@ -120,8 +120,10 @@ class CLI
       league.load_details
       display_league(league)
     else
+
       @subset_stack << LeagueList.search_by_country( \
-        @subset_stack[-2], current_subset.current_page[num - 1])
+        LeagueList.new(current_subset.leagues), \
+        current_subset.current_page[num - 1] )
       display_current_page
     end
   end
