@@ -25,7 +25,6 @@ class CLI
     puts "Creating data structures..."
     @all_leagues = LeagueList.create_initial_list(leagues, countries)
     @subset_stack = [@all_leagues]
-    @search_stack = []
   end
 
   def cross_reference(raw_leagues, raw_countries)
@@ -66,14 +65,7 @@ class CLI
   end
 
   def display_current_page
-    display_title
     current_subset.display_current_page
-  end
-
-  def display_title
-    title = "All Leagues"
-    puts "\n" \
-         "#{title}"
   end
 
   def exec_command(raw_command)
@@ -108,6 +100,16 @@ class CLI
     [words[0], [words[1..-1]]].flatten
   end
 
+  def choose(num)
+    if current_subset.is_a?(LeagueList)
+      current_subset.current_page[num - 1].display_details
+    else
+      @subset_stack << LeagueList.search_by_country( \
+        @subset_stack[-2], current_subset.current_page[num - 1])
+      display_current_page
+    end
+  end
+
   def search(arguments)
     search_results = if !current_subset.is_a?(LeagueList) \
                        || arguments[0].upcase != "-L"
@@ -120,7 +122,6 @@ class CLI
       || search_results.is_a?(LeagueList)
 
     @subset_stack << search_results
-    @search_stack << arguments
     display_current_page
   end
 
@@ -188,7 +189,6 @@ class CLI
   def undo
     if @subset_stack.size > 1
       @subset_stack.pop
-      @search_stack.pop
       current_subset.turn_to(1)
     else
       puts "No search to undo"

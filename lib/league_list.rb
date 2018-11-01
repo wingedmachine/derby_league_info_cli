@@ -31,4 +31,10 @@ class LeagueList
     end
     LeagueList.new(matching_leagues)
   end
+
+  def self.search_by_country(league_list, country)
+    LeagueList.new(league_list.single_page.select do |league|
+      league.country == country
+    end)
+  end
 end
